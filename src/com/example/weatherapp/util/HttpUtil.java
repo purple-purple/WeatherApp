@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpUtil {
-	public static void senHttpRequest(final String address,final HttpCallbackListener listener){
+	public static void sendHttpRequest(final String address,final HttpCallbackListener listener){
 		new Thread(new Runnable(){
 			@Override
 			public void run(){
@@ -40,8 +40,5 @@ public class HttpUtil {
 			}
 		}).start();
 	}
-	public interface HttpCallbackListener{
-		void onFinish(String response);
-		void onError(Exception e);
-	}
+
 }

@@ -11,6 +11,7 @@ import com.example.weatherapp.model.Province;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ChooseCityActivity extends Activity implements OnItemClickListener{
 	public static final int LEVEL_PROVINCE=0; 
@@ -106,7 +106,9 @@ public class ChooseCityActivity extends Activity implements OnItemClickListener{
 			query_city();
 		}else if(level_current==LEVEL_CITY){
 			city_selected=list_city.get(index);
-			Toast.makeText(this, "haha", Toast.LENGTH_SHORT).show();
+			Intent intent=new Intent(ChooseCityActivity.this,WeatherActivity.class);
+			intent.putExtra("city_name", city_selected.getCityName());
+			startActivity(intent);
 		}
 	}
 

@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,12 +28,14 @@ public class WeatherActivity extends Activity implements OnClickListener {
 
 	private LinearLayout layout_weather;
 	private TextView text_city_name;
+	private TextView text_date_today;
 	private TextView text_tem_max;
 	private TextView text_tem_min;
 	private TextView text_weather_message;
 	private Weather_Util weather_util;
 	private HttpUtil http_util;
 	private String weather_response;
+	private Button button_choice_city;
 	
 	public static final int SHOW_RESPONSE=0;
 	private String address;
@@ -43,6 +46,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 				weather_response=(String) msg.obj;
 				//Log.d("my_response", weather_response);
 				Weather_Util.handle_Weather_Response(weather_response);
+				text_date_today.setText(weather_util.data_today);
 				text_tem_min.setText(weather_util.tmp_min_today+"¡æ");
 				text_tem_max.setText(weather_util.tmp_max_today+"¡æ");
 				if(weather_util.txt_d.equals(weather_util.txt_n)){
@@ -61,31 +65,22 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.layout_weather_inf);
 		layout_weather=(LinearLayout) findViewById(R.id.layout_weather_inf);
 		text_city_name=(TextView) findViewById(R.id.name_city);
+		text_date_today=(TextView) findViewById(R.id.date_current);
 		text_tem_max=(TextView) findViewById(R.id.tem_max);
 		text_tem_min=(TextView) findViewById(R.id.tem_min);
 		text_weather_message=(TextView) findViewById(R.id.weather_txt);
+		button_choice_city=(Button) findViewById(R.id.button_choice_city);
 		
+		button_choice_city.setOnClickListener(this);
 		Intent intent=getIntent();
 		Bundle bundle=intent.getExtras();
 		text_city_name.setText(bundle.getString("city_name"));
-		
-		//http_util=new HttpUtil();
 		address="https://api.heweather.com/x3/weather?city="
 				+
 				bundle.getString("city_name").substring(0, bundle.getString("city_name").length()-1)
 				+
 				"&key=d3fd71a8023142f39f2a03b61e0d3df2";
-		/*HttpUtil.sendHttpRequest(address, new HttpCallbackListener(){
-			@Override
-			public void onFinish(String response){
-				weather_response=response.toString();
-				Log.d("my_response", weather_response);
-			}
-			@Override 
-			public void onError(Exception e){
-				e.printStackTrace();
-			}
-		});*/
+
 		sendRequest_Http_URLConnection();
 		//Log.d("my_response", weather_util.tmp_max_today);
 		
@@ -93,8 +88,13 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-
+		switch(v.getId()){
+		case R.id.button_choice_city:{
+			Intent intent=new Intent(WeatherActivity.this,ChooseCityActivity.class);
+			startActivity(intent);
+			finish();
+		}break;
+		}
 	}
 
 	private void sendRequest_Http_URLConnection(){

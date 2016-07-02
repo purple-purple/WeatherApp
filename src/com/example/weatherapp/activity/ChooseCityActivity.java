@@ -66,20 +66,15 @@ public class ChooseCityActivity extends Activity implements OnItemClickListener{
 	}
 	private void query_province(){
 		text_title.setText("China");
-		Log.d("province", "1");
 		list_province=databaseOperator.loadProvince(databaseManager.getDatabase());
-		Log.d("province", "1");
 		if(list_province.size()>0){
 			list_data.clear();
 			for(Province province:list_province){
 				list_data.add(province.getProvinceName());
-				Log.d("province", province.getProvinceName());
 			}
-			Log.d("province", "1");
 			adapter.notifyDataSetChanged();
 			Log.d("province", "1");
 			view_list.setSelection(0);
-			Log.d("province", "1");
 			level_current=LEVEL_PROVINCE;
 		}
 	}
